@@ -1,38 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 
 <head>
-<script
-src="https://unpkg.com/html5-qrcode"
-type="text/javascript">
-</script>
-  <base target="_top">
+
+  <meta charset="UTF-8" />
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
   />
-<meta
-  name="apple-mobile-web-app-capable"
-  content="yes"
-/>
 
-<meta
-  name="mobile-web-app-capable"
-  content="yes"
-/>
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  />
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes"
+  />
+
+  <title>Check-in EducaTangará</title>
+
+  <script
+    src="https://unpkg.com/html5-qrcode"
+    type="text/javascript">
+  </script>
+
   <style>
 
-    * {
-
-      box-sizing: border-box;
-
+    *{
+      box-sizing:border-box;
     }
 
-    body {
+    body{
 
-      margin: 0;
-      padding: 20px;
+      margin:0;
+      padding:20px;
+
+      font-family:Arial,sans-serif;
 
       background:
         linear-gradient(
@@ -41,263 +47,282 @@ type="text/javascript">
           #dfe8f5
         );
 
-      font-family: Arial, sans-serif;
-
-      min-height: 100vh;
+      min-height:100vh;
 
     }
 
-    h1 {
+    h1{
 
-      text-align: center;
+      text-align:center;
 
-      color: #0b3b6e;
+      color:#0b3b6e;
 
-      margin-bottom: 20px;
+      font-size:42px;
 
-      font-size: 34px;
-
-    }
-
-    .evento {
-
-      text-align: center;
-
-      font-size: 22px;
-
-      color: #444;
-
-      margin-bottom: 20px;
-
-      font-weight: bold;
+      margin-bottom:15px;
 
     }
 
-.cameraContainer {
+    .evento{
 
-  width: 100%;
+      text-align:center;
 
-  max-width: 700px;
+      font-size:24px;
 
-  min-height:420px;
+      font-weight:bold;
 
-  margin: auto;
+      color:#444;
 
-  position: relative;
+      margin-bottom:25px;
 
-  border-radius: 24px;
+    }
 
-  overflow: hidden;
+    .cameraContainer{
 
-  background: black;
+      width:100%;
 
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.20);
+      max-width:700px;
 
-}
+      margin:auto;
 
-    .status {
+      border-radius:24px;
 
-      margin: 30px auto;
+      overflow:hidden;
 
-      max-width: 700px;
+      background:black;
 
-      min-height: 260px;
+      min-height:420px;
 
-      border-radius: 24px;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.20);
 
-      background: white;
+    }
 
-      display: flex;
+    #reader{
 
-      align-items: center;
+      width:100%;
 
-      justify-content: center;
+      min-height:420px;
 
-      text-align: center;
+      aspect-ratio:1/1;
 
-      padding: 25px;
+      overflow:hidden;
 
-      transition: 0.3s;
+      border-radius:24px;
+
+    }
+
+    #reader video{
+
+      width:100% !important;
+
+      height:auto !important;
+
+      min-height:420px;
+
+      object-fit:cover;
+
+      border-radius:24px;
+
+    }
+
+    .cameraBox{
+
+      text-align:center;
+
+      margin-top:20px;
+
+    }
+
+    .btnCamera{
+
+      background:#0d6efd;
+
+      color:white;
+
+      border:none;
+
+      padding:18px 30px;
+
+      border-radius:18px;
+
+      font-size:24px;
+
+      font-weight:bold;
+
+      cursor:pointer;
+
+      box-shadow:
+        0 8px 20px rgba(13,110,253,0.25);
+
+    }
+
+    .status{
+
+      margin:30px auto;
+
+      max-width:700px;
+
+      min-height:260px;
+
+      border-radius:24px;
+
+      background:white;
+
+      display:flex;
+
+      align-items:center;
+
+      justify-content:center;
+
+      text-align:center;
+
+      padding:25px;
 
       box-shadow:
         0 10px 30px rgba(0,0,0,0.10);
 
     }
 
-    .aguardando {
+    .aguardando{
 
-      color: #666;
+      color:#666;
 
-      font-size: 30px;
+      font-size:30px;
 
-      font-weight: bold;
-
-    }
-
-    .card {
-
-      display: flex;
-
-      flex-direction: column;
-
-      align-items: center;
-
-      gap: 12px;
-
-      width: 100%;
+      font-weight:bold;
 
     }
 
-    .foto {
+    .card{
 
-      width: 150px;
+      width:100%;
 
-      height: 150px;
+      display:flex;
 
-      border-radius: 50%;
+      flex-direction:column;
 
-      object-fit: cover;
+      align-items:center;
 
-      border: 5px solid white;
+      gap:12px;
+
+    }
+
+    .foto{
+
+      width:150px;
+
+      height:150px;
+
+      border-radius:50%;
+
+      object-fit:cover;
+
+      border:5px solid white;
 
       box-shadow:
         0 4px 15px rgba(0,0,0,0.20);
 
     }
 
-    .nome {
+    .nome{
 
-      font-size: 38px;
+      font-size:38px;
 
-      font-weight: bold;
-
-    }
-
-    .cargo {
-
-      font-size: 24px;
+      font-weight:bold;
 
     }
 
-    .escola {
+    .cargo{
 
-      font-size: 22px;
-
-    }
-
-    .mensagem {
-
-      margin-top: 15px;
-
-      font-size: 36px;
-
-      font-weight: bold;
+      font-size:24px;
 
     }
 
-    .sucesso {
+    .escola{
 
-      background: #198754;
-
-      color: white;
+      font-size:22px;
 
     }
 
-    .duplicado {
+    .mensagem{
 
-      background: #ffc107;
+      margin-top:15px;
 
-      color: #222;
+      font-size:36px;
 
-    }
-
-    .erro {
-
-      background: #dc3545;
-
-      color: white;
+      font-weight:bold;
 
     }
 
-    @media(max-width:700px) {
+    .sucesso{
 
-      .nome {
+      background:#198754;
 
-        font-size: 28px;
+      color:white;
 
+    }
+
+    .duplicado{
+
+      background:#ffc107;
+
+      color:#222;
+
+    }
+
+    .erro{
+
+      background:#dc3545;
+
+      color:white;
+
+    }
+
+    @media(max-width:700px){
+
+      h1{
+        font-size:34px;
       }
 
-      .mensagem {
+      .nome{
+        font-size:28px;
+      }
 
-        font-size: 28px;
-
+      .mensagem{
+        font-size:28px;
       }
 
       .cargo,
-      .escola {
+      .escola{
+        font-size:20px;
+      }
 
-        font-size: 20px;
-
+      .btnCamera{
+        width:100%;
       }
 
     }
 
+    /* ESCONDER ELEMENTOS FEIOS */
 
-#reader{
+    select,
+    input[type="file"],
+    #reader__status_span,
+    #reader__dashboard_section_csr{
 
-  width:100%;
+      display:none !important;
 
-  min-height:420px;
+    }
 
-  aspect-ratio:1/1;
+    #reader__scan_region{
 
-  overflow:hidden;
+      border:none !important;
 
-  border-radius:24px;
+      background:none !important;
 
-}
+    }
 
-#reader video{
-
-  width:100% !important;
-
-  height:auto !important;
-
-  min-height:420px;
-
-  object-fit:cover;
-
-  border-radius:24px;
-
-}
-
-
-select{
-
-  display:none !important;
-
-}
-
-input[type="file"]{
-
-  display:none !important;
-
-}
-
-#reader__status_span{
-
-  display:none !important;
-
-}
-
-#reader__scan_region{
-
-  border:none !important;
-
-  background:none !important;
-
-}
   </style>
 
 </head>
@@ -313,15 +338,28 @@ input[type="file"]{
     id="eventoNome"
   >
 
-    Carregando evento...
+    Evento carregado
 
   </div>
 
-<div class="cameraContainer">
+  <div class="cameraContainer">
 
-  <div id="reader"></div>
+    <div id="reader"></div>
 
-</div>
+  </div>
+
+  <div class="cameraBox">
+
+    <button
+      class="btnCamera"
+      onclick="iniciarCamera()"
+    >
+
+      📷 Ativar câmera
+
+    </button>
+
+  </div>
 
   <div
     class="status"
@@ -338,195 +376,93 @@ input[type="file"]{
 
   <script>
 
-   let eventoAtual = '';
+    let scanning = false;
 
-let tipoCheckin = 'evento';
+    let qrScanner = null;
 
-let scanning = false;
+    // ============================================
+    // PARAMETROS URL
+    // ============================================
 
-let qrScanner = null;
+    const params = new URLSearchParams(
+      window.location.search
+    );
 
-    // =====================================================
-    // PARAMS URL
-    // =====================================================
+    const eventoAtual =
+      params.get('id') || '';
 
-    google.script.url
-      .getLocation(function(location) {
+    const tipoCheckin =
+      params.get('tipo') || 'evento';
 
-    eventoAtual =
-
-  location.parameter.id || '';
-
-tipoCheckin =
-
-  location.parameter.tipo || 'evento';
-
-        carregarEvento();
-
-      });
-
-function carregarEvento() {
-
-  // ==========================================
-  // FORMAÇÃO INTERNA
-  // ==========================================
-
-  if (
-    tipoCheckin === 'interno'
-  ) {
-
-    google.script.run
-
-      .withSuccessHandler(function(formacao) {
-
-        if (
-          formacao
-        ) {
-
-          document.getElementById(
-            'eventoNome'
-          ).innerHTML =
-
-            'Formação: ' +
-
-            formacao.titulo;
-
-        }
-
-      })
-
-      .obterFormacaoInterna(
-        eventoAtual
-      );
-
-  }
-
-  // ==========================================
-  // EVENTO NORMAL
-  // ==========================================
-
-  else {
-
-    google.script.run
-
-      .withSuccessHandler(function(eventos) {
-
-        const evento =
-
-          eventos.find(function(ev) {
-
-            return ev.id === eventoAtual;
-
-          });
-
-        if (evento) {
-
-          document.getElementById(
-            'eventoNome'
-          ).innerHTML =
-
-            'Evento: ' +
-            evento.titulo;
-
-        }
-
-      })
-
-      .listarEventosCheckin();
-
-  }
-
-}
-    // =====================================================
+    // ============================================
     // SOM
-    // =====================================================
+    // ============================================
 
-    function tocarSom(tipo) {
+    function tocarSom(tipo){
 
-      const audio =
+      const audio = new Audio(
 
-        new Audio(
+        tipo === 'sucesso'
 
-          tipo === 'sucesso'
+        ?
 
-          ?
+        'https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'
 
-          'https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'
+        :
 
-          :
+        'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
 
-          'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
-
-        );
+      );
 
       audio.play();
 
     }
 
-    // =====================================================
+    // ============================================
     // STATUS
-    // =====================================================
+    // ============================================
 
-    function mostrarStatus(resposta) {
+    function mostrarStatus(resposta){
 
       const status =
-
         document.getElementById(
           'status'
         );
 
       status.className =
-
-        'status ' +
-        resposta.tipo;
+        'status ' + resposta.tipo;
 
       status.innerHTML = `
 
         <div class="card">
 
           ${
-
             resposta.foto
-
             ?
-
             `
-
-            <img
-              src="${resposta.foto}"
-              class="foto"
-            >
-
+              <img
+                src="${resposta.foto}"
+                class="foto"
+              >
             `
-
             :
-
             ''
-
           }
 
           <div class="nome">
-
             ${resposta.nome || ''}
-
           </div>
 
           <div class="cargo">
-
             ${resposta.cargo || ''}
-
           </div>
 
           <div class="escola">
-
             ${resposta.escola || ''}
-
           </div>
 
           <div class="mensagem">
-
             ${resposta.mensagem}
-
           </div>
 
         </div>
@@ -535,20 +471,18 @@ function carregarEvento() {
 
     }
 
-    // =====================================================
+    // ============================================
     // RESETAR
-    // =====================================================
+    // ============================================
 
-    function resetarTela() {
+    function resetarTela(){
 
       const status =
-
         document.getElementById(
           'status'
         );
 
-      status.className =
-        'status';
+      status.className = 'status';
 
       status.innerHTML = `
 
@@ -562,272 +496,134 @@ function carregarEvento() {
 
     }
 
-    // =====================================================
+    // ============================================
     // INICIAR CAMERA
-    // =====================================================
+    // ============================================
 
-function iniciarCamera() {
+    function iniciarCamera(){
 
-  try {
+      try{
 
-if(qrScanner){
-
-  return;
-
-}
-
-
-    document.getElementById(
-      'status'
-    ).innerHTML = `
-
-      <div class="aguardando">
-
-        📷 Iniciando câmera...
-
-      </div>
-
-    `;
-
-qrScanner =
-
-  new Html5QrcodeScanner(
-
-    "reader",
-
-    {
-
-      fps:10,
-
-      qrbox:{
-        width:250,
-        height:250
-      },
-
-      rememberLastUsedCamera:true,
-
-      supportedScanTypes:[
-        Html5QrcodeScanType.SCAN_TYPE_CAMERA
-      ],
-
-      // videoConstraints:{
-      //   facingMode:"environment"
-      // }
-
-    },
-
-    false
-
-  );
-
-    qrScanner.render(
-
-      function(decodedText) {
-
-        if(scanning){
-
+        if(qrScanner){
           return;
-
         }
 
-        scanning = true;
+        document.querySelector(
+          '.btnCamera'
+        ).disabled = true;
 
-        if(navigator.vibrate){
+        qrScanner =
 
-          navigator.vibrate(200);
+          new Html5QrcodeScanner(
 
-        }
+            "reader",
 
-        processarQR(decodedText);
+            {
 
-        setTimeout(function(){
+              fps:10,
 
-          scanning = false;
+              aspectRatio:1,
 
-        },2500);
+              qrbox:{
+                width:250,
+                height:250
+              },
 
-      },
+              rememberLastUsedCamera:false,
 
-      function(error){
+              supportedScanTypes:[
+                Html5QrcodeScanType.SCAN_TYPE_CAMERA
+              ]
 
-        // ignorar erros contínuos
+            },
+
+            false
+
+          );
+
+        qrScanner.render(
+
+          function(decodedText){
+
+            if(scanning){
+              return;
+            }
+
+            scanning = true;
+
+            if(navigator.vibrate){
+              navigator.vibrate(200);
+            }
+
+            processarQR(decodedText);
+
+            setTimeout(function(){
+
+              scanning = false;
+
+            },2500);
+
+          },
+
+          function(error){
+
+            // ignorar erros contínuos
+
+          }
+
+        );
 
       }
 
-    );
+      catch(erro){
 
-  }
+        console.error(erro);
 
-catch(erro){
-
-  console.error(erro);
-
-
-  alert(
-    'Erro ao acessar câmera.'
-  );
-
-}
-
-}
-// =====================================================
-// PROCESSAR QR
-// =====================================================
-
-function processarQR(
-  idServidor
-) {
-
-  // ===============================================
-  // FORMAÇÃO INTERNA
-  // ===============================================
-
-  if (
-    tipoCheckin === 'interno'
-  ) {
-
-    google.script.run
-
-      .withSuccessHandler(function(resposta) {
-
-        mostrarStatus(
-          resposta
+        alert(
+          'Erro ao acessar câmera.'
         );
 
-        if (
-          resposta.tipo ===
-          'sucesso'
-        ) {
+      }
 
-          tocarSom(
-            'sucesso'
-          );
+    }
 
-        }
+    // ============================================
+    // PROCESSAR QR
+    // ============================================
 
-        else {
+    function processarQR(idServidor){
 
-          tocarSom(
-            'erro'
-          );
+      // TEMPORARIO
+      // depois vamos ligar no Apps Script via fetch()
 
-        }
+      mostrarStatus({
 
-setTimeout(function() {
+        tipo:'sucesso',
 
-  resetarTela();
+        nome:'Servidor Encontrado',
 
-  scanning = false;
+        cargo:'Professor(a)',
 
-}, 2000);
+        escola:'Escola Municipal',
 
-      })
+        mensagem:'✅ Presença registrada!',
 
-      .withFailureHandler(function() {
+        foto:'https://i.pravatar.cc/300'
 
-        mostrarStatus({
+      });
 
-          tipo: 'erro',
+      tocarSom('sucesso');
 
-          mensagem:
-            '❌ Erro interno.',
+      setTimeout(function(){
 
-          nome: '',
-          cargo: '',
-          escola: '',
-          foto: ''
+        resetarTela();
 
-        });
+        scanning = false;
 
-      })
+      },2000);
 
-      .registrarPresencaInterna(
+    }
 
-        idServidor,
-
-        eventoAtual
-
-      );
-
-  }
-
-  // ===============================================
-  // EVENTO NORMAL
-  // ===============================================
-
-  else {
-
-    google.script.run
-
-      .withSuccessHandler(function(resposta) {
-
-        mostrarStatus(
-          resposta
-        );
-
-        if (
-          resposta.tipo ===
-          'sucesso'
-        ) {
-
-          tocarSom(
-            'sucesso'
-          );
-
-        }
-
-        else {
-
-          tocarSom(
-            'erro'
-          );
-
-        }
-
-setTimeout(function() {
-
-  resetarTela();
-
-  scanning = false;
-
-}, 2000);
-
-      })
-
-      .withFailureHandler(function() {
-
-        mostrarStatus({
-
-          tipo: 'erro',
-
-          mensagem:
-            '❌ Erro interno.',
-
-          nome: '',
-          cargo: '',
-          escola: '',
-          foto: ''
-
-        });
-
-      })
-
-      .confirmarPresenca(
-
-        idServidor,
-
-        eventoAtual
-
-      );
-
-  }
-
-}
-window.onload = function(){
-
-  iniciarCamera();
-
-};
   </script>
 
 </body>
