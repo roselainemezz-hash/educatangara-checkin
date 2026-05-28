@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script
+src="https://unpkg.com/html5-qrcode"
+type="text/javascript">
+</script>
+  <base target="_top">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+/>
+
+<meta
+  name="mobile-web-app-capable"
+  content="yes"
+/>
+  <style>
+
+    * {
+
+      box-sizing: border-box;
+
+    }
+
+    body {
+
+      margin: 0;
+      padding: 20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #eef4ff,
+          #dfe8f5
+        );
+
+      font-family: Arial, sans-serif;
+
+      min-height: 100vh;
+
+    }
+
+    h1 {
+
+      text-align: center;
+
+      color: #0b3b6e;
+
+      margin-bottom: 20px;
+
+      font-size: 34px;
+
+    }
+
+    .evento {
+
+      text-align: center;
+
+      font-size: 22px;
+
+      color: #444;
+
+      margin-bottom: 20px;
+
+      font-weight: bold;
+
+    }
+
+.cameraContainer {
+
+  width: 100%;
+
+  max-width: 700px;
+
+  min-height:420px;
+
+  margin: auto;
+
+  position: relative;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  background: black;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.20);
+
+}
+
+    .status {
+
+      margin: 30px auto;
+
+      max-width: 700px;
+
+      min-height: 260px;
+
+      border-radius: 24px;
+
+      background: white;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-align: center;
+
+      padding: 25px;
+
+      transition: 0.3s;
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.10);
+
+    }
+
+    .aguardando {
+
+      color: #666;
+
+      font-size: 30px;
+
+      font-weight: bold;
+
+    }
+
+    .card {
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      gap: 12px;
+
+      width: 100%;
+
+    }
+
+    .foto {
+
+      width: 150px;
+
+      height: 150px;
+
+      border-radius: 50%;
+
+      object-fit: cover;
+
+      border: 5px solid white;
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,0.20);
+
+    }
+
+    .nome {
+
+      font-size: 38px;
+
+      font-weight: bold;
+
+    }
+
+    .cargo {
+
+      font-size: 24px;
+
+    }
+
+    .escola {
+
+      font-size: 22px;
+
+    }
+
+    .mensagem {
+
+      margin-top: 15px;
+
+      font-size: 36px;
+
+      font-weight: bold;
+
+    }
+
+    .sucesso {
+
+      background: #198754;
+
+      color: white;
+
+    }
+
+    .duplicado {
+
+      background: #ffc107;
+
+      color: #222;
+
+    }
+
+    .erro {
+
+      background: #dc3545;
+
+      color: white;
+
+    }
+
+    @media(max-width:700px) {
+
+      .nome {
+
+        font-size: 28px;
+
+      }
+
+      .mensagem {
+
+        font-size: 28px;
+
+      }
+
+      .cargo,
+      .escola {
+
+        font-size: 20px;
+
+      }
+
+    }
+
+
+#reader{
+
+  width:100%;
+
+  min-height:420px;
+
+  aspect-ratio:1/1;
+
+  overflow:hidden;
+
+  border-radius:24px;
+
+}
+
+#reader video{
+
+  width:100% !important;
+
+  height:auto !important;
+
+  min-height:420px;
+
+  object-fit:cover;
+
+  border-radius:24px;
+
+}
+
+
+select{
+
+  display:none !important;
+
+}
+
+input[type="file"]{
+
+  display:none !important;
+
+}
+
+#reader__status_span{
+
+  display:none !important;
+
+}
+
+#reader__scan_region{
+
+  border:none !important;
+
+  background:none !important;
+
+}
+  </style>
+
+</head>
+
+<body>
+
+  <h1>
+    📷 Check-in de Presença
+  </h1>
+
+  <div
+    class="evento"
+    id="eventoNome"
+  >
+
+    Carregando evento...
+
+  </div>
+
+<div class="cameraContainer">
+
+  <div id="reader"></div>
+
+</div>
+
+  <div
+    class="status"
+    id="status"
+  >
+
+    <div class="aguardando">
+
+      📷 Aguardando leitura...
+
+    </div>
+
+  </div>
+
+  <script>
+
+   let eventoAtual = '';
+
+let tipoCheckin = 'evento';
+
+let scanning = false;
+
+let qrScanner = null;
+
+    // =====================================================
+    // PARAMS URL
+    // =====================================================
+
+    google.script.url
+      .getLocation(function(location) {
+
+    eventoAtual =
+
+  location.parameter.id || '';
+
+tipoCheckin =
+
+  location.parameter.tipo || 'evento';
+
+        carregarEvento();
+
+      });
+
+function carregarEvento() {
+
+  // ==========================================
+  // FORMAÇÃO INTERNA
+  // ==========================================
+
+  if (
+    tipoCheckin === 'interno'
+  ) {
+
+    google.script.run
+
+      .withSuccessHandler(function(formacao) {
+
+        if (
+          formacao
+        ) {
+
+          document.getElementById(
+            'eventoNome'
+          ).innerHTML =
+
+            'Formação: ' +
+
+            formacao.titulo;
+
+        }
+
+      })
+
+      .obterFormacaoInterna(
+        eventoAtual
+      );
+
+  }
+
+  // ==========================================
+  // EVENTO NORMAL
+  // ==========================================
+
+  else {
+
+    google.script.run
+
+      .withSuccessHandler(function(eventos) {
+
+        const evento =
+
+          eventos.find(function(ev) {
+
+            return ev.id === eventoAtual;
+
+          });
+
+        if (evento) {
+
+          document.getElementById(
+            'eventoNome'
+          ).innerHTML =
+
+            'Evento: ' +
+            evento.titulo;
+
+        }
+
+      })
+
+      .listarEventosCheckin();
+
+  }
+
+}
+    // =====================================================
+    // SOM
+    // =====================================================
+
+    function tocarSom(tipo) {
+
+      const audio =
+
+        new Audio(
+
+          tipo === 'sucesso'
+
+          ?
+
+          'https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'
+
+          :
+
+          'https://actions.google.com/sounds/v1/alarms/beep_short.ogg'
+
+        );
+
+      audio.play();
+
+    }
+
+    // =====================================================
+    // STATUS
+    // =====================================================
+
+    function mostrarStatus(resposta) {
+
+      const status =
+
+        document.getElementById(
+          'status'
+        );
+
+      status.className =
+
+        'status ' +
+        resposta.tipo;
+
+      status.innerHTML = `
+
+        <div class="card">
+
+          ${
+
+            resposta.foto
+
+            ?
+
+            `
+
+            <img
+              src="${resposta.foto}"
+              class="foto"
+            >
+
+            `
+
+            :
+
+            ''
+
+          }
+
+          <div class="nome">
+
+            ${resposta.nome || ''}
+
+          </div>
+
+          <div class="cargo">
+
+            ${resposta.cargo || ''}
+
+          </div>
+
+          <div class="escola">
+
+            ${resposta.escola || ''}
+
+          </div>
+
+          <div class="mensagem">
+
+            ${resposta.mensagem}
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+    // =====================================================
+    // RESETAR
+    // =====================================================
+
+    function resetarTela() {
+
+      const status =
+
+        document.getElementById(
+          'status'
+        );
+
+      status.className =
+        'status';
+
+      status.innerHTML = `
+
+        <div class="aguardando">
+
+          📷 Aguardando leitura...
+
+        </div>
+
+      `;
+
+    }
+
+    // =====================================================
+    // INICIAR CAMERA
+    // =====================================================
+
+function iniciarCamera() {
+
+  try {
+
+if(qrScanner){
+
+  return;
+
+}
+
+
+    document.getElementById(
+      'status'
+    ).innerHTML = `
+
+      <div class="aguardando">
+
+        📷 Iniciando câmera...
+
+      </div>
+
+    `;
+
+qrScanner =
+
+  new Html5QrcodeScanner(
+
+    "reader",
+
+    {
+
+      fps:10,
+
+      qrbox:{
+        width:250,
+        height:250
+      },
+
+      rememberLastUsedCamera:true,
+
+      supportedScanTypes:[
+        Html5QrcodeScanType.SCAN_TYPE_CAMERA
+      ],
+
+      // videoConstraints:{
+      //   facingMode:"environment"
+      // }
+
+    },
+
+    false
+
+  );
+
+    qrScanner.render(
+
+      function(decodedText) {
+
+        if(scanning){
+
+          return;
+
+        }
+
+        scanning = true;
+
+        if(navigator.vibrate){
+
+          navigator.vibrate(200);
+
+        }
+
+        processarQR(decodedText);
+
+        setTimeout(function(){
+
+          scanning = false;
+
+        },2500);
+
+      },
+
+      function(error){
+
+        // ignorar erros contínuos
+
+      }
+
+    );
+
+  }
+
+catch(erro){
+
+  console.error(erro);
+
+
+  alert(
+    'Erro ao acessar câmera.'
+  );
+
+}
+
+}
+// =====================================================
+// PROCESSAR QR
+// =====================================================
+
+function processarQR(
+  idServidor
+) {
+
+  // ===============================================
+  // FORMAÇÃO INTERNA
+  // ===============================================
+
+  if (
+    tipoCheckin === 'interno'
+  ) {
+
+    google.script.run
+
+      .withSuccessHandler(function(resposta) {
+
+        mostrarStatus(
+          resposta
+        );
+
+        if (
+          resposta.tipo ===
+          'sucesso'
+        ) {
+
+          tocarSom(
+            'sucesso'
+          );
+
+        }
+
+        else {
+
+          tocarSom(
+            'erro'
+          );
+
+        }
+
+setTimeout(function() {
+
+  resetarTela();
+
+  scanning = false;
+
+}, 2000);
+
+      })
+
+      .withFailureHandler(function() {
+
+        mostrarStatus({
+
+          tipo: 'erro',
+
+          mensagem:
+            '❌ Erro interno.',
+
+          nome: '',
+          cargo: '',
+          escola: '',
+          foto: ''
+
+        });
+
+      })
+
+      .registrarPresencaInterna(
+
+        idServidor,
+
+        eventoAtual
+
+      );
+
+  }
+
+  // ===============================================
+  // EVENTO NORMAL
+  // ===============================================
+
+  else {
+
+    google.script.run
+
+      .withSuccessHandler(function(resposta) {
+
+        mostrarStatus(
+          resposta
+        );
+
+        if (
+          resposta.tipo ===
+          'sucesso'
+        ) {
+
+          tocarSom(
+            'sucesso'
+          );
+
+        }
+
+        else {
+
+          tocarSom(
+            'erro'
+          );
+
+        }
+
+setTimeout(function() {
+
+  resetarTela();
+
+  scanning = false;
+
+}, 2000);
+
+      })
+
+      .withFailureHandler(function() {
+
+        mostrarStatus({
+
+          tipo: 'erro',
+
+          mensagem:
+            '❌ Erro interno.',
+
+          nome: '',
+          cargo: '',
+          escola: '',
+          foto: ''
+
+        });
+
+      })
+
+      .confirmarPresenca(
+
+        idServidor,
+
+        eventoAtual
+
+      );
+
+  }
+
+}
+window.onload = function(){
+
+  iniciarCamera();
+
+};
+  </script>
+
+</body>
+
+</html>
