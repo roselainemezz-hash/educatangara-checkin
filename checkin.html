@@ -3,24 +3,24 @@
 
 <head>
 
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  />
+  >
 
   <meta
     name="apple-mobile-web-app-capable"
     content="yes"
-  />
+  >
 
   <meta
     name="mobile-web-app-capable"
     content="yes"
-  />
+  >
 
-  <title>Check-in EducaTangará</title>
+  <title>EducaTangará - Check-in</title>
 
   <script
     src="https://unpkg.com/html5-qrcode"
@@ -38,6 +38,8 @@
       margin:0;
       padding:20px;
 
+      min-height:100vh;
+
       font-family:Arial,sans-serif;
 
       background:
@@ -47,8 +49,6 @@
           #dfe8f5
         );
 
-      min-height:100vh;
-
     }
 
     h1{
@@ -57,7 +57,7 @@
 
       color:#0b3b6e;
 
-      font-size:42px;
+      font-size:38px;
 
       margin-bottom:15px;
 
@@ -85,13 +85,13 @@
 
       margin:auto;
 
+      min-height:420px;
+
       border-radius:24px;
 
       overflow:hidden;
 
       background:black;
-
-      min-height:420px;
 
       box-shadow:
         0 10px 30px rgba(0,0,0,0.20);
@@ -103,8 +103,6 @@
       width:100%;
 
       min-height:420px;
-
-      aspect-ratio:1/1;
 
       overflow:hidden;
 
@@ -136,19 +134,19 @@
 
     .btnCamera{
 
+      border:none;
+
+      border-radius:18px;
+
       background:#0d6efd;
 
       color:white;
 
-      border:none;
-
-      padding:18px 30px;
-
-      border-radius:18px;
-
-      font-size:24px;
+      font-size:22px;
 
       font-weight:bold;
+
+      padding:18px 30px;
 
       cursor:pointer;
 
@@ -249,7 +247,7 @@
 
       margin-top:15px;
 
-      font-size:36px;
+      font-size:34px;
 
       font-weight:bold;
 
@@ -282,7 +280,7 @@
     @media(max-width:700px){
 
       h1{
-        font-size:34px;
+        font-size:32px;
       }
 
       .nome{
@@ -306,10 +304,27 @@
 
     /* ESCONDER ELEMENTOS FEIOS */
 
-    select,
-    input[type="file"],
-    #reader__status_span,
-    #reader__dashboard_section_csr{
+    select{
+
+      opacity:0;
+
+      position:absolute;
+
+      pointer-events:none;
+
+    }
+
+    input[type="file"]{
+
+      opacity:0;
+
+      position:absolute;
+
+      pointer-events:none;
+
+    }
+
+    #reader__status_span{
 
       display:none !important;
 
@@ -338,7 +353,7 @@
     id="eventoNome"
   >
 
-    Evento carregado
+    EducaTangará
 
   </div>
 
@@ -508,10 +523,6 @@
           return;
         }
 
-        document.querySelector(
-          '.btnCamera'
-        ).disabled = true;
-
         qrScanner =
 
           new Html5QrcodeScanner(
@@ -521,8 +532,6 @@
             {
 
               fps:10,
-
-              aspectRatio:1,
 
               qrbox:{
                 width:250,
@@ -580,7 +589,7 @@
         console.error(erro);
 
         alert(
-          'Erro ao acessar câmera.'
+          'Erro ao acessar câmera:\n\n' + erro
         );
 
       }
@@ -593,8 +602,7 @@
 
     function processarQR(idServidor){
 
-      // TEMPORARIO
-      // depois vamos ligar no Apps Script via fetch()
+      // TESTE TEMPORARIO
 
       mostrarStatus({
 
