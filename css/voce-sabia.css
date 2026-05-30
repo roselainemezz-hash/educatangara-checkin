@@ -1,0 +1,147 @@
+body{
+
+  margin:0;
+
+  padding:20px;
+
+  background:#f4f7fc;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  min-height:100vh;
+
+  font-family:Arial,sans-serif;
+
+}
+
+.card{
+
+  width:100%;
+
+  max-width:700px;
+
+  min-height:500px;
+
+  background:white;
+
+  border-radius:40px;
+
+  padding:35px;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.08);
+
+}
+
+.cabecalho{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:20px;
+
+}
+
+.tangara{
+
+  width:120px;
+
+}
+
+.titulo{
+
+  font-size:60px;
+
+  font-weight:bold;
+
+}
+
+.azul{
+
+  color:#0B3B6E;
+
+}
+
+.verde{
+
+  color:#0C8A47;
+
+}
+
+.categoria{
+
+  margin-top:20px;
+
+  text-align:center;
+
+  color:#0B3B6E;
+
+  font-size:28px;
+
+  font-weight:bold;
+
+  letter-spacing:3px;
+
+}
+
+.texto{
+
+  margin-top:50px;
+
+  text-align:center;
+
+  color:#0B3B6E;
+
+  font-size:32px;
+
+  line-height:1.7;
+
+  transition:
+    opacity .6s ease;
+
+}
+
+.fade{
+
+  opacity:0;
+
+}
+
+@media(max-width:700px){
+
+  .cabecalho{
+
+    flex-direction:column;
+
+  }
+
+  .titulo{
+
+    font-size:42px;
+
+  }
+
+  .texto{
+
+    font-size:24px;
+
+  }
+
+  .categoria{
+
+    font-size:22px;
+
+  }
+
+  .tangara{
+
+    width:90px;
+
+  }
+
+}
